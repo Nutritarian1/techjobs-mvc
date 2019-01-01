@@ -12,7 +12,6 @@
 
     <form th:action="@{/search/results}">
         <h2>Search by:</h2>
-
         <p>
             <span th:each="column : ${columns}">
                 <input
@@ -23,20 +22,31 @@
                         th:checked="${column.key == 'all'}"/>
                 <label th:for="${column.key}" th:text="${column.value}"></label>
             </span>
-
         </p>
-
         <p>
             <label for="searchTerm">Keyword:</label>
             <input type="text" name="searchTerm" id="searchTerm" />
         </p>
-
         <input type="submit" value="Search" />
     </form>
 
     <hr />
 
     <!-- TODO #2 - Loop over jobs map to display all job fields -->
+
+    <div th:fragment="job-table">
+        <h3 th:unless="${jobsSize == null}" th:text="${jobsSize + ' Result(s)'}"></h3>
+        <div th:each="job : ${jobs}">
+            <table class="job-listing">
+             <div th:each="mapField : ${job}">
+                <tr>
+                    <td th:text="${#strings.capitalizeWords(mapField.key)}"></td>
+                    <td th:text="${mapField.value}"></td>
+                </tr>
+             </div>
+             </table>
+        </div>
+    </div>
 
 </div>
 
